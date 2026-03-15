@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>4.0.2</version> <!-- Актуальная версия Spring Boot -->
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>trod</groupId>
+	<artifactId>lab</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>lab</name>
+	<description>Demo project for Spring Boot</description>
+
+	<properties>
+		<java.version>17</java.version>
+		<!-- Определение версий зависимостей для удобства управления -->
+		<mapstruct.version>1.6.3</mapstruct.version>
+		<lombok.version>1.18.32</lombok.version>
+		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+	</properties>
+
+	<dependencies>
+		<!-- Spring Boot стартеры -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId> <!-- Исправлено с webmvc на web -->
+		</dependency>
+
+		<!-- База данных -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Lombok: должен быть с scope provided -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+			<!-- Версия берется из spring-boot-starter-parent, но можно указать явно через <version>${lombok.version}</version> -->
+		</dependency>
+
+		<!-- MapStruct: основная библиотека -->
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>${mapstruct.version}</version>
+		</dependency>
+		<!-- Примечание: mapstruct-processor НЕ добавляется сюда как dependency! Он указывается только в annotationProcessorPaths -->
+
+		<!-- Теперь зависимости для тестирования исправлены -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- Дополнительные тестовые зависимости для JPA, если нужны, включаются в starter-test -->
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<!-- Явное указание source и target -->
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<!-- Критически важная секция: порядок процессоров аннотаций -->
+					<annotationProcessorPaths>
+						<!-- 1. Lombok должен обрабатываться ПЕРВЫМ, чтобы сгенерировать геттеры/сеттеры -->
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>${lombok.version}</version>
+						</path>
+						<!-- 2. Связующий процессор, который координирует работу Lombok и MapStruct [citation:2][citation:5] -->
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok-mapstruct-binding</artifactId>
+							<version>${lombok-mapstruct-binding.version}</version>
+						</path>
+						<!-- 3. MapStruct обрабатывается ПОСЛЕ Lombok, чтобы видеть сгенерированные методы -->
+						<path>
+							<groupId>org.mapstruct</groupId>
+							<artifactId>mapstruct-processor</artifactId>
+							<version>${mapstruct.version}</version>
+						</path>
+						<!-- Другие процессоры аннотаций, если есть, добавляются после -->
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<!-- Исключать lombok из spring-boot-maven-plugin НЕ нужно, так как он с scope=provided -->
+			</plugin>
+		</plugins>
+	</build>
+</project>

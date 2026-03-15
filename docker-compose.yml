@@ -1,0 +1,43 @@
+networks:
+  app_network:
+    driver: bridge
+    name: spring_postgres_network
+
+volumes:
+  postgres_data:
+    name: postgres_data_volume
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres_db
+
+    networks:
+      - app_network
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+
+  spring-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: spring_app
+
+    ports:
+      - "8080:8080"
+    networks:
+      - app_network
+
+    depends_on:
+      - postgres
+
+    environment:
+      - DB_URL=${DB_URL}
+      - SPRING_DATASOURCE_USER=${DB_USER}
+      - SPRING_DATASOURCE_PASS=${DB_PASSWORD}
