@@ -72,7 +72,7 @@ jobs:
       - name: Extract coverage percentage
         id: coverage
         run: |
-          COVERAGE=$(grep 'Total' target/site/jacoco/index.html | sed -n 's/.*of 422\t\([0-9]\+\)%.*/\1/p')
+          COVERAGE=$(grep 'Total' target/site/jacoco/index.html | grep -oP '([0-9]+)%' | head -2 | tail -1 | tr -d '%')
           echo "coverage=$COVERAGE" >> $GITHUB_OUTPUT
           echo "Coverage: $COVERAGE%"
           if [ $COVERAGE -lt 50 ]; then
