@@ -72,27 +72,13 @@ jobs:
       - name: Extract coverage percentage
         id: coverage
         run: |
-          COVERAGE=$(grep 'Total' target/site/jacoco/index.html | grep -oP '([0-9]+)%' | head -2 | tail -1 | tr -d '%')
+          COVERAGE=$(grep 'Total' target/site/jacoco/index.html | grep -oP '([0-9]+)%' | sed -n '2p' | tr -d '%')
           echo "coverage=$COVERAGE" >> $GITHUB_OUTPUT
           echo "Coverage: $COVERAGE%"
           if [ $COVERAGE -lt 50 ]; then
             echo "Coverage $COVERAGE% is below threshold 50%"
             exit 1
           fi
-
-#      - name: Comment PR with coverage
-#        if: github.event_name == 'pull_request'
-#        uses: actions/github-script@v7
-#        with:
-#          script: |
-#            const coverage = ${{ steps.coverage.outputs.coverage }};
-#            const message = `## 📊 Test Coverage\n\n**Coverage: ${coverage}%**\n\nThreshold: 50%`;
-#            github.rest.issues.createComment({
-#              issue_number: context.issue.number,
-#              owner: context.repo.owner,
-#              repo: context.repo.repo,
-#              body: message
-#            });
 
   docker-build:
     runs-on: ubuntu-latest
