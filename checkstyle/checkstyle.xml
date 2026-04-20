@@ -66,12 +66,5 @@
             <message key="name.invalidPattern" value="Имя константы {0} должно быть в верхнем регистре с подчёркиваниями"/>
         </module>
 
-        <!-- 12. Специальные правила для Lombok -->
-        <!-- Игнорируем Lombok аннотации при проверке -->
-        <module name="SuppressionCommentFilter">
-            <property name="offCommentFormat" value="@lombok\.Getter|lombok\.Setter|lombok\.Data"/>
-            <property name="onCommentFormat" value="END GENERATED CODE"/>
-        </module>
-
     </module>
 </module>
