@@ -72,7 +72,7 @@ jobs:
       - name: Extract coverage percentage
         id: coverage
         run: |
-          COVERAGE=$(grep 'Total' target/site/jacoco/index.html | grep -oP '([0-9]+)%' | sed -n '2p' | tr -d '%')
+          COVERAGE=$(grep 'Total' target/site/jacoco/index.html | grep -oP '([0-9]+)%' | sed -n '1p' | tr -d '%')
           echo "Coverage: $COVERAGE%"
           if [ $COVERAGE -lt 50 ]; then
             echo "Coverage $COVERAGE% is below threshold 50%"
