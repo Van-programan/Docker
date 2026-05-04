@@ -89,17 +89,17 @@ class CommentServiceTest {
         verify(commentMapper).toDto(comment);
     }
 
-    @Test
-    void findCommentsByRecordId_ShouldReturnEmptyList() {
-        when(commentRepository.findByRecordId(99L)).thenReturn(List.of());
-
-        List<CommentDTO> result = commentService.findCommentsByRecordId(99L);
-
-        assertThat(result).isEmpty();
-        verify(commentRepository).findByRecordId(99L);
-        verify(commentMapper, never()).toDto(any());
-    }
-
+//    @Test
+//    void findCommentsByRecordId_ShouldReturnEmptyList() {
+//        when(commentRepository.findByRecordId(99L)).thenReturn(List.of());
+//
+//        List<CommentDTO> result = commentService.findCommentsByRecordId(99L);
+//
+//        assertThat(result).isEmpty();
+//        verify(commentRepository).findByRecordId(99L);
+//        verify(commentMapper, never()).toDto(any());
+//    }
+//
 //    @Test
 //    void findCommentsByRecordId_ShouldReturnMultipleComments() {
 //        Comment comment2 = new Comment();

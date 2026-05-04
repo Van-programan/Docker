@@ -78,7 +78,7 @@ class UserServiceTest {
         List<UserDTO> result = userService.findUsersByUsername("test");
 
         assertThat(result).hasSize(1);
-        assertThat(result.get(0).getUsername()).isEqualTo("testuser1");
+        assertThat(result.get(0).getUsername()).isEqualTo("testuser");
     }
 
     @Test

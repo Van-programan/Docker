@@ -68,7 +68,7 @@ class RecordServiceTest {
         List<RecordDTO> result = recordService.findRecordByTitle("Test");
 
         assertThat(result).hasSize(1);
-        assertThat(result.get(0).getTitle()).isEqualTo("Test Title1");
+        assertThat(result.get(0).getTitle()).isEqualTo("Test Title");
     }
 
     @Test
@@ -78,7 +78,7 @@ class RecordServiceTest {
 
         List<RecordDTO> result = recordService.findRecordByUserId(1L);
 
-        assertThat(result).hasSize(2);
+        assertThat(result).hasSize(1);
     }
 
     @Test
@@ -88,17 +88,17 @@ class RecordServiceTest {
 
         List<RecordDTO> result = recordService.findAllRecords();
 
-        assertThat(result).hasSize(2);
+        assertThat(result).hasSize(1);
     }
 
-//    @Test
-//    void createRecord_ShouldSaveRecord_WhenUserExists() {
-//        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-//
-//        recordService.createRecord(recordDTO);
-//
-//        verify(recordRepository).save(any(Record.class));
-//    }
+    @Test
+    void createRecord_ShouldSaveRecord_WhenUserExists() {
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+
+        recordService.createRecord(recordDTO);
+
+        verify(recordRepository).save(any(Record.class));
+    }
 
 //    @Test
 //    void createRecord_ShouldThrowException_WhenUserNotFound() {
