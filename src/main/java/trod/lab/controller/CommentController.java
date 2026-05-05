@@ -25,7 +25,7 @@ public class CommentController {
     @PostMapping
     public ResponseEntity<?> createComment(@RequestBody CommentDTO commentDTO){
         try {
-            commentService.createComment(commentDTO);
+            commentService.СreateComment(commentDTO);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());

@@ -128,21 +128,21 @@ class CommentServiceTest {
     }
 
     @Test
-    void createComment_ShouldSaveComment_WhenRecordExists() {
+    void сreateComment_ShouldSaveComment_WhenRecordExists() {
         when(recordRepository.findById(10L)).thenReturn(Optional.of(record));
         when(commentRepository.save(any(Comment.class))).thenReturn(comment);
 
-        commentService.createComment(commentDTO);
+        commentService.СreateComment(commentDTO);
 
         verify(recordRepository).findById(10L);
         verify(commentRepository).save(any(Comment.class));
     }
 
     @Test
-    void createComment_ShouldSetCorrectFields_WhenCreatingComment() {
+    void сreateComment_ShouldSetCorrectFields_WhenCreatingComment() {
         when(recordRepository.findById(10L)).thenReturn(Optional.of(record));
 
-        commentService.createComment(commentDTO);
+        commentService.СreateComment(commentDTO);
 
         verify(commentRepository).save(argThat(savedComment -> {
             assertThat(savedComment.getContent()).isEqualTo("Test comment content");
@@ -153,11 +153,11 @@ class CommentServiceTest {
     }
 
     @Test
-    void createComment_ShouldThrowRecordNotFoundException_WhenRecordDoesNotExist() {
+    void сreateComment_ShouldThrowRecordNotFoundException_WhenRecordDoesNotExist() {
         when(recordRepository.findById(999L)).thenReturn(Optional.empty());
         commentDTO.setRecordId(999L);
 
-        assertThatThrownBy(() -> commentService.createComment(commentDTO))
+        assertThatThrownBy(() -> commentService.СreateComment(commentDTO))
                 .isInstanceOf(RecordNotFoundException.class);
 
         verify(recordRepository).findById(999L);

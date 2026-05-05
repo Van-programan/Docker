@@ -29,7 +29,7 @@ public class CommentService {
     }
 
     @Transactional
-    public void createComment(CommentDTO commentDTO){
+    public void СreateComment(CommentDTO commentDTO){
         Optional<Record> record = recordRepository.findById(commentDTO.getRecordId());
         if (record.isEmpty()) throw new RecordNotFoundException();
 
